@@ -1,7 +1,11 @@
 package net.clonecomputers.lab.util;
 
 import java.util.*;
+import java.util.List;
+import java.util.Map.Entry;
+
 import javax.swing.*;
+
 import java.awt.*;
 
 public class SystemPropertiesTester extends JPanel {
@@ -18,11 +22,19 @@ public class SystemPropertiesTester extends JPanel {
 	public SystemPropertiesTester() {
 		Properties props = System.getProperties();
 		JTextArea text = new JTextArea(100,100);
-		for(Map.Entry<Object, Object> p: props.entrySet()) {
+		List<Map.Entry<Object, Object>> propsList = new ArrayList<Map.Entry<Object, Object>>(props.entrySet());
+		Collections.sort(propsList, new Comparator<Map.Entry<Object,Object>>() {
+			@Override
+			public int compare(Map.Entry<Object, Object> arg0,
+					Map.Entry<Object, Object> arg1) {
+				return arg0.getKey().toString().compareTo(arg1.getKey().toString());
+			}
+		});
+		for(Map.Entry<Object, Object> p: propsList) {
 			text.append(p.getKey().toString());
-			text.append(": ");
+			text.append(": \u201C");
 			text.append(p.getValue().toString());
-			text.append("\n");
+			text.append("\u201D\n");
 		}
 		//text.setText(str.toString());
 		text.setEditable(false);
